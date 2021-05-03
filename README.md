@@ -28,9 +28,13 @@ Pretrained [BERT model](https://huggingface.co/bert-base-uncased) in combination
 
 
 
-**Loss evolution** - *BERT model seems to be overfitting*:
+**Accuracy evolution** - *BERT model seems to be overfitting*:
 
 ![image](/img/acc_evol.png)
+
+**Loss evolution** - *BERT model seems to be overfitting*:
+
+![image](/img/loss_evol.png)
 
 
 **Main challenges**:
