@@ -83,6 +83,9 @@ Tokenized text: xxmaj class (-0.02) … (-0.07) xxmaj the 50d is supposed (-0.04
   - It would be probably better to remove the remaining punctuation altogether.
 - To address the domain differences between Sentiment140 and Dublin City Council datasets, a self-supervised [language model](https://www.d2l.ai/chapter_recurrent-neural-networks/language-models-and-dataset.html) (that predicts the next word in the sentence) could be trained on unlabeled tweets scraped specifically from Dublin area. This model could be used as the pretrained model for classification later, instead of the original pretrained `BERT-base-uncased`. This technique has proved itself quite well in similar classification tasks.
 - The results would improve slightly if it was trained on more training examples. I stopped with 110,000 because with more it would have taken more time than was possible to use Google Colab. But from my observations, the results increased by only 1-2% by going from 10,000 to 110,000 examples.
-- Spend more time on tweaking the models' hyperparameters. For Logistic Regression, `GridSearchCV` with a small set of parameters was used to find the best ones on 200 training examples (otherwise, it took too long with 1,000 features). More data could be used as well as bigger set of parameters tested. For BERT, different dropout rates as well as learning rates could be tested.
+- To address the overfitting of the BERT model, another regularization technique could applied like `weight decay` that adds a portion (controlled by `wd`) of parameters' values to the parameters' gradients inside the training loop, like so:
+```
+parameters.grad += wd * parameters
+```
 
 **Author**: [Pavlo Seimskyi](mailto:pavlo@dataforfuture.org)
