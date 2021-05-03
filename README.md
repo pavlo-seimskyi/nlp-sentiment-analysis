@@ -28,7 +28,7 @@ Pretrained [BERT model](https://huggingface.co/bert-base-uncased) in combination
 
 
 
-**Accuracy evolution** - *BERT model seems to be overfitting*:
+**Accuracy evolution**:
 
 ![image](/img/acc_evol.png)
 
