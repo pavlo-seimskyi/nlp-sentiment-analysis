@@ -13,6 +13,26 @@ Logistic Regression and [BERT](https://huggingface.co/bert-base-uncased) models 
 
 ## Training
 
+### 1. Baseline
+Before using Machine Learning at all, I used a simple dummy approach to see the minimum possible accuracy that I can get. Logic: For each word in the corpus, 2 different scores were given: How many times this word appeared in negative tweets, and how many times in positive tweets. To make prediction, I simply summed the negative and the positive scores across each word >>> If negative sum is higher, predict `negative` and vice versa. This approach gave 65% accuracy on the unseen training data, so I knew that this is the minimum that I need to aim for on the validation set.
+
+### 2. Logistic Regression
+To convert text into numbers, I used TF-IDF for text vectorization. Only 1,000 maximally relevant tokens/words were kept. Different hyperparameters were tested with `Grid Search` on a small subset of training examples and later used in training the model on more data. To use the model as a 3-label-classifier, the prediction probabilities were compared against a threshold , the predictions were set to `neutral`.
+
+### 3. BERT
+Pretrained [BERT model](https://huggingface.co/bert-base-uncased) in combination with pretrained tokenizer (both are `bert-base-uncased`) was used as the final model. I used a dropout layer with probability of 30% as regularization and a softmax layer on top of the model's encoder to convert the pooled output into labels `0` and `1`. This architecture was chosen because it is recommended in the [original research paper](https://arxiv.org/abs/1810.04805). BERT was fine-tuned during 10 epochs and the parameters that proved the best accuracy on the validation set were saved. The same approach was used to convert BERT into 3-label-classifier as with LogReg.
+
+**Accuracy results**:
+
+![image](/img/accuracy_results.png)
+
+
+
+**Loss evolution** - *BERT model seems to be overfitting*:
+
+![image](/img/acc_evol.png)
+
+
 **Main challenges**:
 - Training data contains *2 labels* (`negative/positive`) while the test data contains *3* (`negative/positive/neutral`). The accuracy drops dramatically from binary to 3-label-classification.
 - Dublin City Council is out-of-domain data and differs notably from the training data, especially in the formality of the language.
@@ -23,17 +43,6 @@ Logistic Regression and [BERT](https://huggingface.co/bert-base-uncased) models 
 - To understand why the models made errors, I found top losses for each test example (both Sentiment140 and Dublin City council data), i.e. cases when the model was very confident in its prediction but it was incorrect. 
 - Additionally, in case of Logistic Regression, for each token in top loss examples, I printed the model coefficients to see how the token impacted the final score.
 - I used a dropout layer (`p=30%`) as regularization and a linear + softmax layer on top of the BERT's encoder to convert the raw pooled output into labels `0` and `1` (recommended by the original research paper).
-
-![image](/img/accuracy_results.png)
-
-### 1. Baseline
-Before using Machine Learning at all, I used a simple dummy approach to see the minimum possible accuracy that I can get. Logic: For each word in the corpus, 2 different scores were given: How many times this word appeared in negative tweets, and how many times in positive tweets. To make prediction, I simply summed the negative and the positive scores across each word >>> If negative sum is higher, predict `negative` and vice versa. This approach gave 65% accuracy on the unseen training data, so I knew that this is the minimum that I need to aim for on the validation set.
-
-### 2. Logistic Regression
-To convert text into numbers, I used TF-IDF for text vectorization. Only 1,000 maximally relevant tokens/words were kept. Different hyperparameters were tested with `Grid Search` on a small subset of training examples and later used in training the model on more data. To use the model as a 3-label-classifier, the prediction probabilities were compared against a threshold , the predictions were set to `neutral`.
-
-### 3. BERT
-Pretrained [BERT model](https://huggingface.co/bert-base-uncased) in combination with pretrained tokenizer (both are `bert-base-uncased`) was used as the final model. I used a dropout layer with probability of 30% as regularization and a softmax layer on top of the model's encoder to convert the pooled output into labels `0` and `1`. This architecture was chosen because it is recommended in the [original research paper](https://arxiv.org/abs/1810.04805). BERT was fine-tuned during 10 epochs and the parameters that proved the best accuracy on the validation set were saved. The same approach was used to convert BERT into 3-label-classifier as with LogReg.
 
 
 **Error analysis and interesting observations**:
