@@ -71,6 +71,8 @@ Tokenized text: xxmaj class (-0.02) … (-0.07) xxmaj the 50d is supposed (-0.04
 - In case of logistic regression, certain numbers have negative sentiment which does not really make sense.
 - Both models' accuracy was **lower** on topics of `Mobility`, `Health`, `Safety`, `Housing`, `Infrastructure` for Dublin City Council test set, and **higher** for `Public Spaces`, `Tourism and Hospitality` and `Community and Culture`. This might because Dublin's spheres of mobility, infrastructure and housing are very special to the city and cannot be generalized well from data from other places.
 
+![image](/img/bert_acc_by_category.png)
+
 
 **Model's improvement suggestions**:
 - First and foremost, the model should be trained on data with 3 labels, not with 2. It might be most helpful to hire some freelancers to annotate `neutral` tweets to get high quality data.
